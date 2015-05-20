@@ -33,6 +33,12 @@
         android:text="JSON"
         android:onClick="onBtnClick1" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="frame"
+        android:onClick="btnFrame" />
+
     <TextView
         android:id="@+id/text_result"
         android:text="@string/hello_world"

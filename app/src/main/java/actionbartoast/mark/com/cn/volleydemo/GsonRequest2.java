@@ -1,22 +1,19 @@
 package actionbartoast.mark.com.cn.volleydemo;
 
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
 
-public class GsonRequest<T> extends BasePostRequest<T> {
+public class GsonRequest2<T> extends Request<T> {
     private final Response.Listener<T> mListener;
     protected Class<T> mResponseType;
 
-    public GsonRequest(String url, Response.Listener<T> listener, Class<T> responseType, Map<String, String> param) {
-        this(url, listener, null, responseType, param);
-    }
-
-    public GsonRequest(String url, Response.Listener<T> listener, Response.ErrorListener errorListener, Class<T> responseType, Map<String, String> param) {
-        super(url, listener, errorListener, param);
+    public GsonRequest2(int method, String url, Response.Listener<T> listener, Response.ErrorListener errorListener, Class<T> responseType) {
+        super(method, url, errorListener);
         this.mListener = listener;
         this.mResponseType = responseType;
     }
@@ -27,17 +24,21 @@ public class GsonRequest<T> extends BasePostRequest<T> {
 
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         String parsed;
-
+        T t;
         try {
-            Thread.sleep(3000);
             parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+
             Gson gson = ContentMapper.getDefaultContentMapper().getGson();
-            T t = gson.fromJson(parsed, mResponseType);
+
+            t = gson.fromJson(parsed, mResponseType);
+
             return Response.success(t, HttpHeaderParser.parseCacheHeaders(response));
 
-        } catch (Exception var4) {
+        } catch (UnsupportedEncodingException var4) {
             parsed = new String(response.data);
         }
+
+        //return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
         return null;
     }
 }

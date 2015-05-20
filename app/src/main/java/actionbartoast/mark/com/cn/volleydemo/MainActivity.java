@@ -47,6 +47,10 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * string
+     * @param view
+     */
     public void onBtnClick(View view) {
         RequestQueue newRequestQueue = Volley.newRequestQueue(MainActivity.this);
         StringRequest request = new StringRequest(mEditText.getText().toString().trim(),
@@ -56,21 +60,24 @@ public class MainActivity extends ActionBarActivity {
                         mTextResult.setText(response);
                     }
                 }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                decodeVolleyError(error);
-            }
-        });
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        decodeVolleyError(error);
+                    }
+                }
+        );
         request.setTag(this);
         newRequestQueue.add(request);
     }
 
+    /**
+     * json
+     * @param view
+     */
     public void onBtnClick1(View view) {
+        RequestQueue newRequestQueue = Volley.newRequestQueue(MainApp.getContext());
 
-        RequestQueue newRequestQueue = Volley.newRequestQueue(MainActivity.this);
-
-        GsonRequest<RespFitment> request = new GsonRequest<RespFitment>(Request.Method.POST, "http://192.168.0.41:83/Api/SaleHouse/HouseDic",
+        GsonRequest2<RespFitment> request = new GsonRequest2<RespFitment>(Request.Method.POST,"http://192.168.0.41:83/Api/SaleHouse/HouseDic",
                 new Response.Listener<RespFitment>() {
                     @Override
                     public void onResponse(RespFitment response) {
@@ -94,11 +101,22 @@ public class MainActivity extends ActionBarActivity {
         DefaultRetryPolicy r = new DefaultRetryPolicy(1,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-
-
         request.setRetryPolicy(r);
-
         newRequestQueue.add(request);
+    }
+
+    public void btnFrame(View view){
+        Map<String, String> mParams = new HashMap<String, String>();
+        mParams.put("key", "Fitment");
+        mParams.put("sign", "");
+
+        NetTastContext.getInstance().getFitment(mParams, new Response.Listener<RespFitment>(){
+            @Override
+            public void onResponse(RespFitment respFitment) {
+                mTextResult.setText(respFitment.getDic().size()+"");
+            }
+        } , RespFitment.class);
+
     }
 
     /**
@@ -107,9 +125,7 @@ public class MainActivity extends ActionBarActivity {
      */
     private void decodeVolleyError(VolleyError error){
         long sss = error.getNetworkTimeMs();
-
         String msg = "time:"+sss;
-
         if(error.getCause() instanceof UnknownHostException){
             msg+=", reson:"+"无法访问服务器";
         }else if(error.getCause() instanceof ConnectException){
@@ -117,11 +133,8 @@ public class MainActivity extends ActionBarActivity {
         }else if(error instanceof TimeoutError){
             msg+=", reson:"+"连接超时";
         }
-
         Log.d("mark", error.toString());
-
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-
         mTextResult.setText(error.toString());
     }
 
@@ -141,7 +154,6 @@ public class MainActivity extends ActionBarActivity {
             mTextResult.setText("");
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
