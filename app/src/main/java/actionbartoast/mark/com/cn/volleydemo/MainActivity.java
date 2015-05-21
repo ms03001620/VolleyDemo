@@ -1,5 +1,6 @@
 package actionbartoast.mark.com.cn.volleydemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -156,6 +157,12 @@ public class MainActivity extends ActionBarActivity {
             mTextResult.setText("");
             return true;
         }
+        if (id == R.id.action_image) {
+            startActivity(new Intent(this, PhotoActivity.class));
+            return true;
+        }
+
+        //PhotoActivity
         return super.onOptionsItemSelected(item);
     }
 }
