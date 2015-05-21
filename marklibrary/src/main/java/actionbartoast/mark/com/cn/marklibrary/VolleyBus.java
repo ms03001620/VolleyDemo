@@ -1,10 +1,8 @@
-package actionbartoast.mark.com.cn.volleydemo;
+package actionbartoast.mark.com.cn.marklibrary;
 
 import android.content.Context;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
-import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.Volley;
 
 /**

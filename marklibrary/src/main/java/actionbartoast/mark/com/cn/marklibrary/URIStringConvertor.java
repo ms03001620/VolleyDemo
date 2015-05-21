@@ -1,6 +1,4 @@
-package actionbartoast.mark.com.cn.volleydemo;
-
-import java.lang.reflect.Type;
+package actionbartoast.mark.com.cn.marklibrary;
 
 import android.net.Uri;
 
@@ -11,6 +9,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+
+import java.lang.reflect.Type;
 
 
 public class URIStringConvertor implements JsonSerializer<Uri>, JsonDeserializer<Uri> {

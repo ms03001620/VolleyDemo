@@ -1,4 +1,4 @@
-package actionbartoast.mark.com.cn.volleydemo;
+package actionbartoast.mark.com.cn.volleydemo.actionbartoast.mark.com.cn.volleydemo.entity;
 
 public class RespBase {
 	private int code;

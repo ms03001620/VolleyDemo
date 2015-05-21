@@ -8,6 +8,8 @@ import com.android.volley.VolleyError;
 import java.util.HashMap;
 import java.util.Map;
 
+import actionbartoast.mark.com.cn.marklibrary.VolleyBus;
+
 /**
  * Created by Administrator on 2015/5/20.
  */
@@ -25,17 +27,6 @@ public class NetTastContext {
         }
         return instance;
     }
-
-/*    public void getFitment(Map<String, String> param, Response.Listener listener) {
-        GsonRequest<RespFitment> request = new GsonRequest<RespFitment>("http://192.168.0.41:83/Api/SaleHouse/HouseDic",
-                new Response.Listener<RespFitment>() {
-                    @Override
-                    public void onResponse(RespFitment response) {
-                    }
-                },
-        RespFitment.class, param);
-        bus.addToRequestQueue(request);
-    }*/
 
     public <T> void getFitment(Map<String, String> param, Response.Listener listener, Class<T> responseType) {
         GsonRequest<T> request = new GsonRequest<T>("http://192.168.0.41:83/Api/SaleHouse/HouseDic",listener, null,responseType, param);

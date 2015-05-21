@@ -1,4 +1,4 @@
-package actionbartoast.mark.com.cn.volleydemo;
+package actionbartoast.mark.com.cn.marklibrary;
 
 import android.widget.Toast;
 
@@ -6,7 +6,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
@@ -23,7 +22,7 @@ public abstract class BasePostRequest<T> extends Request<T> {
     private Map<String, String> params;
 
     public BasePostRequest(String url, Response.Listener<T> listener, Response.ErrorListener errorListener, Map<String, String> params) {
-        super(Request.Method.POST, url, errorListener==null? new Response.ErrorListener() {
+        super(Method.POST, url, errorListener==null? new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 BasePostRequest.decodeVolleyError(error);

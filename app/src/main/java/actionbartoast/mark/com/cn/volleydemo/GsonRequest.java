@@ -7,6 +7,9 @@ import com.google.gson.Gson;
 
 import java.util.Map;
 
+import actionbartoast.mark.com.cn.marklibrary.BasePostRequest;
+import actionbartoast.mark.com.cn.marklibrary.ContentMapper;
+
 public class GsonRequest<T> extends BasePostRequest<T> {
     private final Response.Listener<T> mListener;
     protected Class<T> mResponseType;

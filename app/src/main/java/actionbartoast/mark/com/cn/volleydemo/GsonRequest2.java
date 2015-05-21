@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;
 
+import actionbartoast.mark.com.cn.marklibrary.ContentMapper;
+
 public class GsonRequest2<T> extends Request<T> {
     private final Response.Listener<T> mListener;
     protected Class<T> mResponseType;

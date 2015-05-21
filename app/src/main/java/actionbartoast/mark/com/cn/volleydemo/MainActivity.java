@@ -25,6 +25,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import actionbartoast.mark.com.cn.volleydemo.actionbartoast.mark.com.cn.volleydemo.entity.RespFitment;
+
 public class MainActivity extends ActionBarActivity {
 
     private EditText mEditText;
