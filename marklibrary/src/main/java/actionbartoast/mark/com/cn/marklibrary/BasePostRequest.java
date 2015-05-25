@@ -1,11 +1,13 @@
 package actionbartoast.mark.com.cn.marklibrary;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 
@@ -44,11 +46,13 @@ public abstract class BasePostRequest<T> extends Request<T> {
         long timeMs = error.getNetworkTimeMs();
         String msg = "time passed:"+timeMs;
         if(error.getCause() instanceof UnknownHostException){
-            msg+=", reson:"+"无法访问服务器";
+            msg+=", reason:"+"无法访问服务器";
         }else if(error.getCause() instanceof ConnectException){
-            msg+=", reson:"+"无法打开网络连接";
+            msg+=", reason:"+"无法打开网络连接";
         }else if(error instanceof TimeoutError){
-            msg+=", reson:"+"连接超时";
+            msg+=", reason:"+"连接超时";
+        }else if(error instanceof ServerError){
+            msg+=", reason:"+"服务器错误";
         }
         Toast.makeText(MainApp.getContext(), msg, Toast.LENGTH_SHORT).show();
     }
@@ -58,5 +62,11 @@ public abstract class BasePostRequest<T> extends Request<T> {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         return r;
+    }
+
+    @Override
+    public void addMarker(String tag) {
+        super.addMarker(tag);
+        Log.d("BasePostRequest mark:", tag);
     }
 }

@@ -1,5 +1,6 @@
 package actionbartoast.mark.com.cn.volleydemo;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -52,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * string
+     *
      * @param view
      */
     public void onBtnClick(View view) {
@@ -63,11 +65,11 @@ public class MainActivity extends ActionBarActivity {
                         mTextResult.setText(response);
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        decodeVolleyError(error);
-                    }
-                }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                decodeVolleyError(error);
+            }
+        }
         );
         request.setTag(this);
         newRequestQueue.add(request);
@@ -75,23 +77,24 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * json
+     *
      * @param view
      */
     public void onBtnClick1(View view) {
         RequestQueue newRequestQueue = Volley.newRequestQueue(MainApp.getContext());
 
-        GsonRequest2<RespFitment> request = new GsonRequest2<RespFitment>(Request.Method.POST,"http://192.168.0.41:83/Api/SaleHouse/HouseDic",
+        GsonRequest2<RespFitment> request = new GsonRequest2<RespFitment>(Request.Method.POST, "http://192.168.0.41:83/Api/SaleHouse/HouseDic",
                 new Response.Listener<RespFitment>() {
                     @Override
                     public void onResponse(RespFitment response) {
-                        mTextResult.setText(response.getDic().size()+"");
+                        mTextResult.setText(response.getDic().size() + "");
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        decodeVolleyError(error);
-                    }
-                },RespFitment.class){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                decodeVolleyError(error);
+            }
+        }, RespFitment.class) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> mParams = new HashMap<String, String>();
@@ -108,33 +111,49 @@ public class MainActivity extends ActionBarActivity {
         newRequestQueue.add(request);
     }
 
-    public void btnFrame(View view){
+    public void btnFrame(View view) {
         Map<String, String> mParams = new HashMap<String, String>();
         mParams.put("key", "Fitment");
         mParams.put("sign", "");
 
-        NetTastContext.getInstance().getFitment(mParams, new Response.Listener<RespFitment>(){
+        NetTastContext.getInstance().getFitment(mParams, new Response.Listener<RespFitment>() {
             @Override
             public void onResponse(RespFitment respFitment) {
-                mTextResult.setText(respFitment.getDic().size()+"");
+                mTextResult.setText(respFitment.getDic().size() + "");
             }
-        } , RespFitment.class);
+        }, RespFitment.class);
 
     }
 
+    ProgressDialog p;
+
+    public void btnpProgress(View view) {
+        if (p == null) {
+            p = new ProgressDialog(this);
+        }
+
+        if (p.isShowing()) {
+            p.dismiss();
+        } else {
+            p.show();
+        }
+    }
+
+
     /**
      * 解析错误类型
+     *
      * @param error
      */
-    private void decodeVolleyError(VolleyError error){
+    private void decodeVolleyError(VolleyError error) {
         long sss = error.getNetworkTimeMs();
-        String msg = "time:"+sss;
-        if(error.getCause() instanceof UnknownHostException){
-            msg+=", reson:"+"无法访问服务器";
-        }else if(error.getCause() instanceof ConnectException){
-            msg+=", reson:"+"无法打开网络连接";
-        }else if(error instanceof TimeoutError){
-            msg+=", reson:"+"连接超时";
+        String msg = "time:" + sss;
+        if (error.getCause() instanceof UnknownHostException) {
+            msg += ", reson:" + "无法访问服务器";
+        } else if (error.getCause() instanceof ConnectException) {
+            msg += ", reson:" + "无法打开网络连接";
+        } else if (error instanceof TimeoutError) {
+            msg += ", reson:" + "连接超时";
         }
         Log.d("mark", error.toString());
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();

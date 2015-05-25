@@ -10,18 +10,22 @@ import android.widget.ImageView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.NetworkImageView;
 
 public class ImageBaseAdapter extends BaseAdapter {
     private String[] imageUrlArray;
     private LayoutInflater inflater;
 
     private Context context;
+    private ImageLoader imageLoader;
 
     public ImageBaseAdapter(Context context, String[] imageUrlArray) {
         this.imageUrlArray = imageUrlArray;
         this.inflater = LayoutInflater.from(context);
         this.context = context;
+        this.imageLoader=new ImageLoader(VolleyUtil.getQueue(context), new LruImageCache());
     }
 
     @Override
@@ -54,8 +58,15 @@ public class ImageBaseAdapter extends BaseAdapter {
         String imageUrl = imageUrlArray[position];
 
 
-        viewHolder.ivCar.setImageResource(R.drawable.ic_empty);
-        VolleyUtil.getQueue(context).cancelAll(viewHolder.ivCar);
+        NetworkImageView networkImageView=(NetworkImageView)viewHolder.ivCar;
+        networkImageView.setDefaultImageResId(R.drawable.ic_empty);
+        networkImageView.setErrorImageResId(R.drawable.ic_empty);
+        networkImageView.setImageUrl(imageUrl,  imageLoader);
+
+
+
+        //viewHolder.ivCar.setImageResource(R.drawable.ic_empty);
+/*        VolleyUtil.getQueue(context).cancelAll(viewHolder.ivCar);
         ImageRequest request = new ImageRequest(imageUrl, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap bitmap) {
@@ -68,7 +79,7 @@ public class ImageBaseAdapter extends BaseAdapter {
             }
         });
         request.setTag(viewHolder.ivCar);
-        VolleyUtil.getQueue(this.context).add(request);
+        VolleyUtil.getQueue(this.context).add(request);*/
 
 
         return convertView;
